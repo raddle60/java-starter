@@ -82,9 +82,9 @@ public class Starter {
 				OutputStreamWriter w = new OutputStreamWriter(new FileOutputStream(f), "utf-8");
 				w.write("# java main 类\n");
 				w.write("main.class=\n");
-				w.write("# classpath 路径 , 用逗号隔开的多个目录");
+				w.write("# classpath 路径 , 用逗号隔开的多个目录\n");
 				w.write("classpath=classes,config\n");
-				w.write("# lib 路径 , 用逗号隔开的多个目录");
+				w.write("# lib 路径 , 用逗号隔开的多个目录\n");
 				w.write("libdir=lib\n");
 				w.close();
 				JOptionPane.showMessageDialog(null, "系统自动生成了starter.properties，請填写main.class后再次执行！");
