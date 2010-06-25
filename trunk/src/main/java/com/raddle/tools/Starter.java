@@ -21,10 +21,10 @@ import javax.swing.UIManager;
 public class Starter {
 
 	public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-        }
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+		}
 		try {
 			Properties p = new Properties();
 			File f = new File("starter.properties");
@@ -79,6 +79,7 @@ public class Starter {
 					commandLine.append(" ").append(mainClass);
 					// 命令行文件
 					Writer w = new FileWriter(new File("start.sh"));
+					w.write("cd " + new File(".").getAbsolutePath() + "\n");
 					w.write(commandLine.toString());
 					w.close();
 				}
@@ -111,9 +112,7 @@ public class Starter {
 			if (libDir.isDirectory()) {
 				List<File> fileList = getLibFile(libDir);
 				for (File file : fileList) {
-					commandLine.append(
-							file.getAbsolutePath().substring(libDir.getAbsolutePath().length() - libDir.getName().length()))
-							.append(spliter);
+					commandLine.append(file.getAbsolutePath().substring(libDir.getAbsolutePath().length() - libDir.getName().length())).append(spliter);
 				}
 			}
 		}
