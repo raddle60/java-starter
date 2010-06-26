@@ -70,6 +70,7 @@ public class Starter {
 					commandLine.append(" ").append(mainClass).append("\"");
 					// 命令行文件
 					Writer w = new FileWriter(new File("start.bat"));
+					w.write("cd " + new File("").getAbsolutePath() + "\n");
 					w.write(commandLine.toString());
 					w.close();
 				} else {
@@ -79,7 +80,7 @@ public class Starter {
 					commandLine.append(" ").append(mainClass);
 					// 命令行文件
 					Writer w = new FileWriter(new File("start.sh"));
-					w.write("cd " + new File(".").getAbsolutePath() + "\n");
+					w.write("cd " + new File("").getAbsolutePath() + "\n");
 					w.write(commandLine.toString());
 					w.close();
 				}
