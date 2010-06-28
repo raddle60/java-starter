@@ -61,29 +61,30 @@ public class Starter {
 					}
 				}
 				// 命令行
-				StringBuffer commandLine = new StringBuffer();
-				String osName = System.getProperties().getProperty("os.name");
-				if (osName.toLowerCase().indexOf("windows") != -1) {
+//				String osName = System.getProperties().getProperty("os.name");
+//				if (osName.toLowerCase().indexOf("windows") != -1) {
+					StringBuffer batCommandLine = new StringBuffer();
 					// windows
-					commandLine.append("cmd /c \"start javaw -cp ");
-					appendCpDirs(classpathes, libDirs, commandLine, ";");
-					commandLine.append(" ").append(mainClass).append("\"");
+					batCommandLine.append("cmd /c \"start javaw -cp ");
+					appendCpDirs(classpathes, libDirs, batCommandLine, ";");
+					batCommandLine.append(" ").append(mainClass).append("\"");
 					// 命令行文件
-					Writer w = new FileWriter(new File("start.bat"));
-					w.write("cd " + new File("").getAbsolutePath() + "\n");
-					w.write(commandLine.toString());
-					w.close();
-				} else {
+					Writer batWriter = new FileWriter(new File("start.bat"));
+					batWriter.write("cd " + new File("").getAbsolutePath() + "\n");
+					batWriter.write(batCommandLine.toString());
+					batWriter.close();
+//				} else {
+					StringBuffer shellCommandLine = new StringBuffer();
 					// 其他
-					commandLine.append("java -cp ");
-					appendCpDirs(classpathes, libDirs, commandLine, ":");
-					commandLine.append(" ").append(mainClass);
+					shellCommandLine.append("java -cp ");
+					appendCpDirs(classpathes, libDirs, shellCommandLine, ":");
+					shellCommandLine.append(" ").append(mainClass);
 					// 命令行文件
-					Writer w = new FileWriter(new File("start.sh"));
-					w.write("cd " + new File("").getAbsolutePath() + "\n");
-					w.write(commandLine.toString());
-					w.close();
-				}
+					Writer shellWriter = new FileWriter(new File("start.sh"));
+					shellWriter.write("cd " + new File("").getAbsolutePath() + "\n");
+					shellWriter.write(shellCommandLine.toString());
+					shellWriter.close();
+//				}
 				JOptionPane.showMessageDialog(null, "已生成启动脚本");
 			} else {
 				OutputStreamWriter w = new OutputStreamWriter(new FileOutputStream(f), "utf-8");
