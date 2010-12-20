@@ -60,31 +60,31 @@ public class Starter {
 						}
 					}
 				}
-				// 命令行
-//				String osName = System.getProperties().getProperty("os.name");
-//				if (osName.toLowerCase().indexOf("windows") != -1) {
-					StringBuffer batCommandLine = new StringBuffer();
-					// windows
-					batCommandLine.append("cmd /c \"start javaw -cp ");
-					appendCpDirs(classpathes, libDirs, batCommandLine, ";");
-					batCommandLine.append(" ").append(mainClass).append("\"");
-					// 命令行文件
-					Writer batWriter = new FileWriter(new File("start.bat"));
+				// cmd命令行
+				StringBuffer batCommandLine = new StringBuffer();
+				// windows
+				batCommandLine.append("cmd /c \"start javaw -cp ");
+				appendCpDirs(classpathes, libDirs, batCommandLine, ";");
+				batCommandLine.append(" ").append(mainClass).append("\"");
+				// 命令行文件
+				Writer batWriter = new FileWriter(new File("start.bat"));
+				if("true".equals("gencd")){
 					batWriter.write("cd " + new File("").getAbsolutePath() + "\n");
-					batWriter.write(batCommandLine.toString());
-					batWriter.close();
-//				} else {
-					StringBuffer shellCommandLine = new StringBuffer();
-					// 其他
-					shellCommandLine.append("java -cp ");
-					appendCpDirs(classpathes, libDirs, shellCommandLine, ":");
-					shellCommandLine.append(" ").append(mainClass);
-					// 命令行文件
-					Writer shellWriter = new FileWriter(new File("start.sh"));
-					shellWriter.write("cd " + new File("").getAbsolutePath() + "\n");
-					shellWriter.write(shellCommandLine.toString());
-					shellWriter.close();
-//				}
+				}
+				batWriter.write(batCommandLine.toString());
+				batWriter.close();
+			    // shell命令行
+				StringBuffer shellCommandLine = new StringBuffer();
+				shellCommandLine.append("java -cp ");
+				appendCpDirs(classpathes, libDirs, shellCommandLine, ":");
+				shellCommandLine.append(" ").append(mainClass);
+				// 命令行文件
+				Writer shellWriter = new FileWriter(new File("start.sh"));
+				if("true".equals("gencd")){
+					batWriter.write("cd " + new File("").getAbsolutePath() + "\n");
+				}
+				shellWriter.write(shellCommandLine.toString());
+				shellWriter.close();
 				JOptionPane.showMessageDialog(null, "已生成启动脚本");
 			} else {
 				OutputStreamWriter w = new OutputStreamWriter(new FileOutputStream(f), "utf-8");
@@ -94,6 +94,8 @@ public class Starter {
 				w.write("classpath=classes,config\n");
 				w.write("# lib 路径 , 用逗号隔开的多个目录\n");
 				w.write("libdir=lib\n");
+				w.write("# 是否增加cd脚本，cd到本目录在执行脚本\n");
+				w.write("gencd=true\n");
 				w.close();
 				JOptionPane.showMessageDialog(null, "系统自动生成了starter.properties，請填写main.class后再次执行！");
 			}
@@ -106,7 +108,7 @@ public class Starter {
 	private static void appendCpDirs(Set<String> classpathes, Set<String> libDirs, StringBuffer commandLine, String spliter) {
 		for (String cls : classpathes) {
 			if (new File(cls).isDirectory()) {
-				commandLine.append("classes").append(spliter);
+				commandLine.append(cls).append(spliter);
 			}
 		}
 		for (String dir : libDirs) {
